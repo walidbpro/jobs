@@ -1,0 +1,2025 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Référentiel Métiers - Analyse et Pistes d'Évolution</title>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #0a0a0f;
+            --bg-secondary: #12121a;
+            --bg-card: #1a1a24;
+            --bg-card-hover: #22222e;
+            --text-primary: #f0f0f5;
+            --text-secondary: #8888a0;
+            --text-muted: #55556a;
+            --accent-red: #ff4d4d;
+            --accent-orange: #ff9f43;
+            --accent-green: #26de81;
+            --accent-blue: #4d9fff;
+            --accent-purple: #a55eea;
+            --border-color: #2a2a3a;
+            --gradient-warning: linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%);
+            --gradient-success: linear-gradient(135deg, #26de81 0%, #20bf6b 100%);
+            --gradient-info: linear-gradient(135deg, #4d9fff 0%, #2d7dd2 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .noise-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            opacity: 0.03;
+            z-index: 1000;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 1rem 2rem;
+            background: rgba(10, 10, 15, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            letter-spacing: 0.1em;
+        }
+
+        .nav-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            font-weight: 500;
+        }
+
+        .nav-status::before {
+            content: '';
+            width: 8px; height: 8px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 4rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%; right: -20%;
+            width: 80%; height: 150%;
+            background: radial-gradient(ellipse at center, rgba(77, 159, 255, 0.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(77, 159, 255, 0.1);
+            border: 1px solid rgba(77, 159, 255, 0.3);
+            border-radius: 100px;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            margin-bottom: 2rem;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .hero-title {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            animation: fadeInUp 0.6s ease-out 0.1s both;
+        }
+
+        .hero-title span {
+            display: block;
+            background: var(--gradient-info);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin-bottom: 3rem;
+            animation: fadeInUp 0.6s ease-out 0.2s both;
+        }
+
+        .hero-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            animation: fadeInUp 0.6s ease-out 0.3s both;
+        }
+
+        .metric-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .metric-card:hover {
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .metric-card.success { border-color: rgba(38, 222, 129, 0.3); }
+        .metric-card.success::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-success); }
+        
+        .metric-card.info { border-color: rgba(77, 159, 255, 0.3); }
+        .metric-card.info::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-info); }
+        
+        .metric-card.warning { border-color: rgba(255, 159, 67, 0.3); }
+        .metric-card.warning::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--gradient-warning); }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-family: 'Space Mono', monospace;
+            font-size: 2.2rem;
+            font-weight: 700;
+        }
+        
+        .metric-value.green { color: var(--accent-green); }
+        .metric-value.orange { color: var(--accent-orange); }
+        .metric-value.blue { color: var(--accent-blue); }
+
+        .metric-target {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 4rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .section-header { margin-bottom: 3rem; }
+
+        .section-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--accent-blue);
+            letter-spacing: 0.2em;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+        }
+
+        /* Flow Diagram */
+        .flow-diagram {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 3rem 0;
+            flex-wrap: wrap;
+        }
+
+        .flow-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            min-width: 140px;
+        }
+
+        .flow-box.highlight { border-color: var(--accent-blue); background: rgba(77, 159, 255, 0.1); }
+        .flow-box.success { border-color: var(--accent-green); background: rgba(38, 222, 129, 0.1); }
+        .flow-box.warning { border-color: var(--accent-orange); background: rgba(255, 159, 67, 0.1); }
+
+        .flow-number {
+            font-family: 'Space Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .flow-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        .flow-arrow {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        /* Comparison Table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .comparison-table th {
+            background: var(--bg-card);
+            font-family: 'Space Mono', monospace;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+        }
+
+        .comparison-table td {
+            font-size: 0.95rem;
+        }
+
+        .comparison-table tr:hover td {
+            background: var(--bg-card);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .tag.green { background: rgba(38, 222, 129, 0.15); color: var(--accent-green); }
+        .tag.orange { background: rgba(255, 159, 67, 0.15); color: var(--accent-orange); }
+        .tag.blue { background: rgba(77, 159, 255, 0.15); color: var(--accent-blue); }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .info-card-icon {
+            width: 48px; height: 48px;
+            background: rgba(77, 159, 255, 0.1);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-card-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Code Block */
+        .code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.5rem;
+            font-family: 'Space Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--accent-purple);
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .alert-box.success {
+            background: rgba(38, 222, 129, 0.1);
+            border-left: 4px solid var(--accent-green);
+        }
+
+        .alert-box.warning {
+            background: rgba(255, 159, 67, 0.1);
+            border-left: 4px solid var(--accent-orange);
+        }
+
+        .alert-box.info {
+            background: rgba(77, 159, 255, 0.1);
+            border-left: 4px solid var(--accent-blue);
+        }
+
+        .alert-title {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-box.success .alert-title { color: var(--accent-green); }
+        .alert-box.warning .alert-title { color: var(--accent-orange); }
+        .alert-box.info .alert-title { color: var(--accent-blue); }
+
+        /* Verdict Box */
+        .verdict-box {
+            text-align: center;
+            padding: 3rem;
+            margin: 3rem 0;
+            border-radius: 20px;
+        }
+
+        .verdict-box.info {
+            background: linear-gradient(135deg, rgba(77, 159, 255, 0.15) 0%, rgba(77, 159, 255, 0.05) 100%);
+            border: 2px solid rgba(77, 159, 255, 0.3);
+        }
+
+        .verdict-box.success {
+            background: linear-gradient(135deg, rgba(38, 222, 129, 0.15) 0%, rgba(38, 222, 129, 0.05) 100%);
+            border: 2px solid rgba(38, 222, 129, 0.3);
+        }
+
+        .verdict-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .verdict-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .verdict-box.info .verdict-text { color: var(--accent-blue); }
+        .verdict-box.success .verdict-text { color: var(--accent-green); }
+
+        /* Points forts list */
+        .strengths-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .strength-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(38, 222, 129, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .strength-icon {
+            color: var(--accent-green);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .strength-text {
+            font-size: 0.95rem;
+        }
+
+        /* Challenge list */
+        .challenge-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 159, 67, 0.2);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .challenge-icon {
+            color: var(--accent-orange);
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        /* KPI Detail Boxes */
+        .kpi-detail-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            margin: 2rem 0;
+            overflow: hidden;
+        }
+
+        .kpi-detail-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+        }
+
+        .kpi-question {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .kpi-context {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .kpi-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+        }
+
+        @media (max-width: 900px) {
+            .kpi-comparison { grid-template-columns: 1fr; }
+            .kpi-approach.cartesian { 
+                border-right: none; 
+                border-bottom: 1px solid var(--border-color);
+            }
+        }
+
+        .kpi-approach {
+            padding: 1.5rem 2rem;
+            padding-top: 3.5rem;
+            position: relative;
+        }
+
+        .kpi-approach.cartesian {
+            background: rgba(255, 159, 67, 0.06);
+            border-right: 1px solid var(--border-color);
+        }
+
+        .kpi-approach.cartesian::before {
+            content: '🔶 RÉFÉRENTIEL CHANNEL';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #ff9f43 0%, #f39c12 100%);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 0.6rem 1rem;
+            text-align: center;
+        }
+
+        .kpi-approach.separated {
+            background: rgba(38, 222, 129, 0.06);
+        }
+
+        .kpi-approach.separated::before {
+            content: '🟢 PLATEFORME ACTUELLE';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(135deg, #26de81 0%, #20bf6b 100%);
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            padding: 0.6rem 1rem;
+            text-align: center;
+        }
+
+        .kpi-approach-header {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .kpi-approach-label {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .kpi-approach.cartesian .kpi-approach-label {
+            color: var(--accent-orange);
+        }
+
+        .kpi-approach.separated .kpi-approach-label {
+            color: var(--accent-green);
+        }
+
+        .kpi-approach-content {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        .kpi-approach-content p {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Source badges pour Channel vs Plateforme */
+        .source-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .source-label.channel {
+            background: linear-gradient(135deg, rgba(255, 159, 67, 0.25), rgba(255, 159, 67, 0.15));
+            color: var(--accent-orange);
+            border: 1px solid rgba(255, 159, 67, 0.4);
+        }
+
+        .source-label.plateforme {
+            background: linear-gradient(135deg, rgba(38, 222, 129, 0.25), rgba(38, 222, 129, 0.15));
+            color: var(--accent-green);
+            border: 1px solid rgba(38, 222, 129, 0.4);
+        }
+
+        /* Use case box */
+        .use-case-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .use-case-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .use-case-icon {
+            width: 40px; height: 40px;
+            background: rgba(255, 159, 67, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .use-case-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .use-case-content {
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 4rem;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .footer-logo {
+            font-family: 'Space Mono', monospace;
+            letter-spacing: 0.1em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero, .section { padding: 4rem 1.5rem; }
+            .hero-title { font-size: 2rem; }
+            .section-title { font-size: 1.75rem; }
+            .flow-diagram { gap: 0.5rem; }
+            .flow-box { padding: 1rem; min-width: 100px; }
+            .flow-number { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">RÉFÉRENTIEL MÉTIERS // FREELANCE.COM</div>
+        <div class="nav-status">Analyse collaborative</div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-badge">📊 Point d'étape</div>
+        <h1 class="hero-title">
+            Référentiel Métiers<br>
+            <span>Comment répondre aux besoins KPI ?</span>
+        </h1>
+
+        <!-- Cards métiers uniques par source -->
+        <div class="hero-metrics" style="margin-top: 3rem;">
+            <div class="metric-card" style="border-color: rgba(77, 159, 255, 0.4);">
+                <div class="metric-label" style="color: #4d9fff;">🔷 Channel</div>
+                <div class="metric-value" style="color: #4d9fff;">125</div>
+                <div class="metric-target">Métiers uniques</div>
+            </div>
+            <div class="metric-card" style="border-color: rgba(165, 94, 234, 0.4);">
+                <div class="metric-label" style="color: #a55eea;">🏢 Plateforme</div>
+                <div class="metric-value" style="color: #a55eea;">212</div>
+                <div class="metric-target">Métiers + 35 456 titres</div>
+            </div>
+            <div class="metric-card" style="border-color: rgba(0, 176, 255, 0.4);">
+                <div class="metric-label" style="color: #00b0ff;">☁️ Salesforce</div>
+                <div class="metric-value" style="color: #00b0ff;">3 039</div>
+                <div class="metric-target">Métiers / 12 412 ressources</div>
+            </div>
+            <div class="metric-card" style="border-color: rgba(241, 196, 15, 0.4);">
+                <div class="metric-label" style="color: #f1c40f;">🇫🇷 Nexus</div>
+                <div class="metric-value" style="color: #f1c40f;">1 983</div>
+                <div class="metric-target">Métiers / 2 876 occ.</div>
+            </div>
+            <div class="metric-card" style="border-color: rgba(255, 71, 87, 0.4);">
+                <div class="metric-label" style="color: #ff4757;">🇨🇭 Puma</div>
+                <div class="metric-value" style="color: #ff4757;">4 084</div>
+                <div class="metric-target">Métiers / 6 831 occ.</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 1: Points forts -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-number">01 // POINTS FORTS DU RÉFÉRENTIEL CHANNEL</div>
+            <h2 class="section-title">Une base solide</h2>
+            <p class="section-subtitle">
+                Le travail réalisé sur le référentiel Channel apporte une structure métier claire.
+            </p>
+        </div>
+
+        <div class="strengths-grid">
+            <div class="strength-item">
+                <span class="strength-icon">✓</span>
+                <span class="strength-text"><strong>9 familles métiers</strong> bien définies pour l'agrégation macro</span>
+            </div>
+            <div class="strength-item">
+                <span class="strength-icon">✓</span>
+                <span class="strength-text"><strong>125 métiers</strong> couvrant les principaux profils du marché</span>
+            </div>
+            <div class="strength-item">
+                <span class="strength-icon">✓</span>
+                <span class="strength-text"><strong>135 domaines</strong> de compétences (niveau 3)</span>
+            </div>
+            <div class="strength-item">
+                <span class="strength-icon">✓</span>
+                <span class="strength-text"><strong>Logique de croisement</strong> : Métier × Compétences</span>
+            </div>
+        </div>
+
+        <div class="flow-diagram">
+            <div class="flow-box highlight">
+                <div class="flow-number" style="color: var(--accent-blue);">125</div>
+                <div class="flow-label">Métiers</div>
+            </div>
+            <div class="flow-arrow">×</div>
+            <div class="flow-box highlight">
+                <div class="flow-number" style="color: var(--accent-blue);">70</div>
+                <div class="flow-label">Sous-domaines</div>
+            </div>
+            <div class="flow-arrow">=</div>
+            <div class="flow-box warning">
+                <div class="flow-number" style="color: var(--accent-orange);">8 750</div>
+                <div class="flow-label">Combinaisons brutes</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box success">
+                <div class="flow-number" style="color: var(--accent-green);">~3 700</div>
+                <div class="flow-label">Profils cohérents</div>
+            </div>
+        </div>
+
+        <!-- Champs SI Plateforme -->
+        <div class="alert-box success" style="margin-top: 2rem;">
+            <div class="alert-title">🟢 Champs SI existants sur la Plateforme</div>
+            <table class="comparison-table" style="margin: 1rem 0; background: transparent;">
+                <thead>
+                    <tr>
+                        <th>Champ</th>
+                        <th>Format</th>
+                        <th>Obligatoire</th>
+                        <th>Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Métiers</strong></td>
+                        <td>Tags multiples</td>
+                        <td>Oui</td>
+                        <td>212 métiers + 35 456 titres déclarés</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Compétences</strong></td>
+                        <td>Tags multiples</td>
+                        <td>Oui</td>
+                        <td><strong>11K uniques</strong> / 167K déclarations/an</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Titre</strong></td>
+                        <td>Texte libre</td>
+                        <td>Oui</td>
+                        <td>—</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Section 1bis: Logique Channel - Explosion combinatoire -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-number">01bis // LOGIQUE DU RÉFÉRENTIEL CHANNEL</div>
+            <h2 class="section-title">Structure et croisement Métier × Domaine</h2>
+            <p class="section-subtitle">
+                Le référentiel Channel génère des profils en croisant chaque métier avec chaque domaine de compétence. 
+                Cette logique cartésienne produit une explosion combinatoire qu'il faut ensuite filtrer.
+            </p>
+        </div>
+
+        <!-- Flow diagram -->
+        <div class="flow-diagram" style="margin-bottom: 3rem;">
+            <div class="flow-box">
+                <div class="flow-number" style="color: var(--accent-blue);">128</div>
+                <div class="flow-label">Métiers</div>
+            </div>
+            <div class="flow-arrow">×</div>
+            <div class="flow-box">
+                <div class="flow-number" style="color: var(--accent-blue);">72</div>
+                <div class="flow-label">Domaines</div>
+            </div>
+            <div class="flow-arrow">=</div>
+            <div class="flow-box" style="border-color: var(--accent-purple);">
+                <div class="flow-number" style="color: var(--accent-purple);">9 216</div>
+                <div class="flow-label">Combinaisons brutes</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box" style="border-color: var(--accent-orange);">
+                <div class="flow-number" style="color: var(--accent-orange);">-5 478</div>
+                <div class="flow-label">Filtrées (59%)</div>
+            </div>
+            <div class="flow-arrow">→</div>
+            <div class="flow-box success">
+                <div class="flow-number" style="color: var(--accent-green);">3 738</div>
+                <div class="flow-label">Profils cohérents</div>
+            </div>
+        </div>
+
+        <!-- Explications -->
+        <div class="cards-grid" style="margin-bottom: 2rem;">
+            <div class="info-card" style="border-color: rgba(255, 159, 67, 0.3);">
+                <div class="info-card-icon" style="background: rgba(255, 159, 67, 0.1);">⚠️</div>
+                <div class="info-card-title" style="color: var(--accent-orange);">Combinaisons filtrées (59%)</div>
+                <div class="info-card-desc">
+                    Le croisement automatique génère des combinaisons métier-domaine qui ne correspondent pas à des profils réels du marché.<br><br>
+                    <strong>Exemples filtrés :</strong><br>
+                    <span style="font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--text-muted);">
+                        "Directeur RSE - Infrastructure systèmes"<br>
+                        "Ingénieur de production - Marketing digital"<br>
+                        "Directeur commercial - Informatique industrielle"
+                    </span>
+                </div>
+            </div>
+            <div class="info-card" style="border-color: rgba(38, 222, 129, 0.3);">
+                <div class="info-card-icon" style="background: rgba(38, 222, 129, 0.1);">✅</div>
+                <div class="info-card-title" style="color: var(--accent-green);">Combinaisons conservées (41%)</div>
+                <div class="info-card-desc">
+                    Seules les combinaisons pertinentes sont retenues, générant 3 738 profils utilisables.<br><br>
+                    <strong>Exemples conservés :</strong><br>
+                    <span style="font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--text-muted);">
+                        "Consultant en stratégie - Data et IA"<br>
+                        "Chef de projet - Méthodologie Agile"<br>
+                        "Développeur - Web et applicatifs"
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Distribution par famille -->
+        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">📊 Distribution des 3 738 profils par famille métier</h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--accent-blue);">980</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Numérique</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--accent-blue);">493</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Marketing</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--accent-blue);">439</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Consulting</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--text-secondary);">402</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Achat/Logistique</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--text-secondary);">344</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Ingénierie</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--text-secondary);">326</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">RSE</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--text-secondary);">274</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">RH</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--text-secondary);">251</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Finance/Juridique</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--text-secondary);">229</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">Commerce</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="alert-box warning">
+            <div class="alert-title">⚠️ Constat</div>
+            <p>
+                <strong>59% des combinaisons générées sont incohérentes</strong> et doivent être filtrées manuellement.<br>
+                Cette approche cartésienne complexifie la maintenance et l'évolution du référentiel.
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 2: Réflexion sur les KPI -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-number">02 // BESOINS KPI</div>
+            <h2 class="section-title">Besoins d'agrégation</h2>
+            <p class="section-subtitle">
+                Les équipes métier expriment des besoins de KPI qui nécessitent une capacité d'agrégation à différents niveaux.
+                Analysons en détail 5 questions récurrentes.
+            </p>
+        </div>
+
+        <!-- Question 1: Combien de Développeurs -->
+        <div class="kpi-detail-box">
+            <div class="kpi-detail-header">
+                <div class="kpi-question">❶ "Combien de Développeurs ?"</div>
+                <div class="kpi-context">Question d'agrégation macro — Équipe Marketing / Direction</div>
+            </div>
+            <div class="kpi-comparison">
+                <div class="kpi-approach cartesian">
+                    <div class="kpi-approach-header">
+                        <span class="tag orange">⚠️ Agrégation manuelle</span>
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>Nécessite de lister <strong>toutes les variantes</strong> :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.8rem;">
+Titre = 'Développeur Java'<br>
+OU Titre = 'Développeur Python'<br>
+OU Titre = 'Développeur React'<br>
+OU Titre = 'Développeur Full Stack'<br>
+OU Titre = 'Développeur Mobile'<br>
+OU Titre = 'Développeur Back-End'<br>
+OU Titre = 'Développeur Front-End'<br>
+OU ... <span style="color: var(--accent-orange);">/* 15+ variantes */</span>
+                        </div>
+                        <p style="color: var(--accent-orange); font-size: 0.85rem;">⚠️ Risque d'oubli si nouvelle variante ajoutée</p>
+                    </div>
+                </div>
+                <div class="kpi-approach separated">
+                    <div class="kpi-approach-header">
+                        <span class="tag green">✅ 1 condition</span>
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>Une seule condition sur le champ Métier :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.9rem;">
+<span style="color: var(--accent-green);">Métier = 'Développeur'</span>
+                        </div>
+                        <p style="color: var(--accent-green); font-size: 0.85rem;">✅ Toutes les variantes incluses automatiquement</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2: Dev Java en IDF -->
+        <div class="kpi-detail-box">
+            <div class="kpi-detail-header">
+                <div class="kpi-question">❷ "Combien de Dev Java en IDF ?"</div>
+                <div class="kpi-context">Question de filtrage croisé — Équipe Offres / Commercial</div>
+            </div>
+            <div class="kpi-comparison">
+                <div class="kpi-approach cartesian">
+                    <div class="kpi-approach-header">
+                        <span class="tag green">✅ Croisement possible</span>
+                        
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>Le croisement <strong>Développeur × Java</strong> fonctionne :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.9rem;">
+Titre = 'Développeur Java'<br>
+ET Région = 'Île-de-France'
+                        </div>
+                        <p style="color: var(--accent-orange); font-size: 0.85rem;">⚠️ Limite : un dev multi-stack (Java + React) a un seul titre. Un dev Spring (= Java) n'est pas compté.</p>
+                    </div>
+                </div>
+                <div class="kpi-approach separated">
+                    <div class="kpi-approach-header">
+                        <span class="tag green">✅ Croisement flexible</span>
+                        
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>Croisement de 3 critères indépendants :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.9rem;">
+<span style="color: var(--accent-blue);">Métier = 'Développeur'</span><br>
+ET <span style="color: var(--accent-green);">'Java' DANS Compétences</span><br>
+ET <span style="color: var(--accent-purple);">Région = 'Île-de-France'</span>
+                        </div>
+                        <p style="color: var(--accent-green); font-size: 0.85rem;">✅ Inclut tous les devs qui déclarent Java, quelle que soit leur stack complète</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3: Freelances en IA -->
+        <div class="kpi-detail-box">
+            <div class="kpi-detail-header">
+                <div class="kpi-question">❸ "Combien de freelances en IA ?"</div>
+                <div class="kpi-context">Question de compétence transverse — Équipe Marketing / Stratégie</div>
+            </div>
+            <div class="kpi-comparison">
+                <div class="kpi-approach cartesian">
+                    <div class="kpi-approach-header">
+                        <span class="tag orange">⚠️ Complexe</span>
+                        
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>L'IA n'est pas un métier, c'est une <strong>compétence transverse</strong> :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.8rem;">
+Titre = 'Data Scientist'<br>
+OU Titre = 'Ingénieur Machine Learning'<br>
+OU Titre = 'Développeur Python' <span style="color: var(--text-muted);">/* peut-être ? */</span><br>
+OU Titre = 'Chef de Projet Data' <span style="color: var(--text-muted);">/* peut-être ? */</span><br>
+OU ...
+                        </div>
+                        <p style="color: var(--accent-orange); font-size: 0.85rem;">⚠️ Où s'arrête la liste ? Un Consultant ou un Chef de projet peut aussi faire de l'IA...</p>
+                    </div>
+                </div>
+                <div class="kpi-approach separated">
+                    <div class="kpi-approach-header">
+                        <span class="tag green">✅ Filtrage direct</span>
+                        
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>Filtrage sur le champ Compétences :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.9rem;">
+<span style="color: var(--accent-green);">'IA' DANS Compétences</span><br>
+OU <span style="color: var(--accent-green);">'Machine Learning' DANS Compétences</span><br>
+OU <span style="color: var(--accent-green);">'Deep Learning' DANS Compétences</span>
+                        </div>
+                        <p style="color: var(--accent-green); font-size: 0.85rem;">✅ Capture tous les profils compétents en IA, quel que soit leur métier principal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 4: TJM par métier -->
+        <div class="kpi-detail-box">
+            <div class="kpi-detail-header">
+                <div class="kpi-question">❹ "TJM des UX UI Designers ?"</div>
+                <div class="kpi-context">Question d'agrégation par métier — Direction / Finance / Offres</div>
+            </div>
+            <div class="kpi-comparison">
+                <div class="kpi-approach cartesian">
+                    <div class="kpi-approach-header">
+                        <span class="tag orange">⚠️ Agrégation manuelle</span>
+                        
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>Faut lister <strong>toutes les variantes</strong> du métier :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.8rem;">
+Titre = 'UX Designer Figma'<br>
+OU Titre = 'UI Designer Mobile'<br>
+OU Titre = 'UX Designer Web'<br>
+OU Titre = 'UX Researcher'<br>
+OU ... <span style="color: var(--accent-orange);">/* combien de variantes ? */</span>
+                        </div>
+                        <p style="color: var(--accent-orange); font-size: 0.85rem;">⚠️ Risque d'oubli, maintenance lourde</p>
+                    </div>
+                </div>
+                <div class="kpi-approach separated">
+                    <div class="kpi-approach-header">
+                        <span class="tag green">✅ 1 condition</span>
+                        
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>Une seule condition sur le champ Métier :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.9rem;">
+<span style="color: var(--accent-green);">Métier = 'UX UI Designer'</span>
+                        </div>
+                        <p style="color: var(--accent-green); font-size: 0.85rem;">✅ Figma, Mobile, Web sont dans le champ Compétences à côté</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 5: Top compétences -->
+        <div class="kpi-detail-box">
+            <div class="kpi-detail-header">
+                <div class="kpi-question">❺ "Top 10 compétences déclarées ?"</div>
+                <div class="kpi-context">Question de tendance — Marketing / Veille marché</div>
+            </div>
+            <div class="kpi-comparison">
+                <div class="kpi-approach cartesian">
+                    <div class="kpi-approach-header">
+                        <span class="tag orange">⚠️ Extraction complexe</span>
+                        
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>La compétence est <strong>fusionnée dans le titre</strong>. Comment l'extraire ?</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.8rem;">
+"Développeur Java" → Java ?<br>
+"Développeur Full Stack React" → React ? Full Stack ?<br>
+"Chef de Projet Agile" → Agile ? Gestion de projet ?<br>
+"Consultant Data & IA" → Data ? IA ? Les deux ?<br>
+<span style="color: var(--accent-orange);">/* Parsing manuel ou algorithme complexe */</span>
+                        </div>
+                        <p style="color: var(--accent-orange); font-size: 0.85rem;">⚠️ Risque d'erreurs, résultats incomplets</p>
+                    </div>
+                </div>
+                <div class="kpi-approach separated">
+                    <div class="kpi-approach-header">
+                        <span class="tag green">✅ Comptage direct</span>
+                        
+                    </div>
+                    <div class="kpi-approach-content">
+                        <p>Comptage direct sur le champ Compétences :</p>
+                        <div class="code-block" style="margin: 1rem 0; font-size: 0.9rem;">
+<span style="color: var(--accent-green);">Compter les Compétences (données réelles)</span><br>
+→ 1. SQL : 3 621<br>
+→ 2. Excel : 3 593<br>
+→ 3. Jira : 3 550<br>
+→ 4. Python : 3 355<br>
+→ 5. Agile : 3 233<br>
+...
+                        </div>
+                        <p style="color: var(--accent-green); font-size: 0.85rem;">✅ Résultat instantané — 167K déclarations sur 1 an</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Synthèse -->
+        <div class="alert-box info" style="margin-top: 3rem;">
+            <div class="alert-title">📊 Synthèse des 5 cas d'usage</div>
+            <table class="comparison-table" style="margin: 1rem 0;">
+                <thead>
+                    <tr>
+                        <th style="width: 35%;">Question</th>
+                        <th style="width: 30%;">Titres composites</th>
+                        <th style="width: 35%;">Métier + Compétences séparés</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Combien de Développeurs ?</td>
+                        <td><span class="tag orange">⚠️ Liste manuelle</span></td>
+                        <td><span class="tag green">✅ 1 requête</span></td>
+                    </tr>
+                    <tr>
+                        <td>Combien de Dev Java en IDF ?</td>
+                        <td><span class="tag green">✅ Croisement OK</span></td>
+                        <td><span class="tag green">✅ Plus flexible</span></td>
+                    </tr>
+                    <tr>
+                        <td>Combien en IA ?</td>
+                        <td><span class="tag orange">⚠️ Liste partielle</span></td>
+                        <td><span class="tag green">✅ 1 requête</span></td>
+                    </tr>
+                    <tr>
+                        <td>TJM des UX/UI Designers ?</td>
+                        <td><span class="tag orange">⚠️ Liste variantes</span></td>
+                        <td><span class="tag green">✅ 1 requête</span></td>
+                    </tr>
+                    <tr>
+                        <td>Top compétences ?</td>
+                        <td><span class="tag orange">⚠️ Parsing requis</span></td>
+                        <td><span class="tag green">✅ 1 requête</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Section 4: Piste de réflexion -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-number">03 // PISTE DE RÉFLEXION</div>
+            <h2 class="section-title">Évolution possible</h2>
+            <p class="section-subtitle">
+                Une réflexion à mener ensemble : comment tirer parti du travail Channel tout en facilitant l'agrégation KPI ?
+            </p>
+        </div>
+
+        <div class="verdict-box info">
+            <div class="verdict-icon">💡</div>
+            <div class="verdict-text">Idée : Conserver la richesse du référentiel Channel<br>tout en séparant Métier et Compétences pour l'agrégation</div>
+        </div>
+
+        <div class="cards-grid">
+            <div class="info-card" style="border-color: rgba(38, 222, 129, 0.3);">
+                <div class="info-card-icon" style="background: rgba(38, 222, 129, 0.1);">📋</div>
+                <div class="info-card-title" style="color: var(--accent-green);">Ce qu'on conserve</div>
+                <div class="info-card-desc">
+                    ✓ Les <strong>9 familles métiers</strong> Channel<br>
+                    ✓ Les <strong>125 métiers</strong> comme base<br>
+                    ✓ Les <strong>domaines de compétences</strong> structurés<br>
+                    ✓ La <strong>logique de compatibilité</strong> métier/compétence
+                </div>
+            </div>
+            <div class="info-card" style="border-color: rgba(77, 159, 255, 0.3);">
+                <div class="info-card-icon" style="background: rgba(77, 159, 255, 0.1);">🔧</div>
+                <div class="info-card-title" style="color: var(--accent-blue);">Ce qu'on ajuste</div>
+                <div class="info-card-desc">
+                    → <strong>Métier</strong> = champ principal (pour agrégation)<br>
+                    → <strong>Compétences</strong> = champ séparé (pour filtrage)<br>
+                    → <strong>Famille</strong> = niveau d'agrégation macro<br>
+                    → Le croisement reste <strong>possible en requête</strong>
+                </div>
+            </div>
+            <div class="info-card" style="border-color: rgba(38, 222, 129, 0.3);">
+                <div class="info-card-icon" style="background: rgba(38, 222, 129, 0.1);">⚡</div>
+                <div class="info-card-title" style="color: var(--accent-green);">Bénéfices attendus</div>
+                <div class="info-card-desc">
+                    ✓ Agrégation par famille <strong>native</strong><br>
+                    ✓ Filtrage par compétence <strong>natif</strong><br>
+                    ✓ Maintenance <strong>simplifiée</strong><br>
+                    ✓ Requêtes KPI <strong>directes</strong><br>
+                    ✓ Compatibilité <strong>Plateforme existante</strong>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert-box success" style="margin-top: 3rem;">
+            <div class="alert-title">✅ Point positif</div>
+            <p>La Plateforme dispose déjà de champs Métier et Compétences séparés. 
+            L'approche proposée s'aligne sur cette structure existante, facilitant l'intégration.</p>
+        </div>
+    </section>
+
+    <!-- Section 3bis: Validation Approche Cartésienne -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-number">03bis // VALIDATION APPROCHE CARTÉSIENNE</div>
+            <h2 class="section-title">Proposition de 230 métiers — Test : génération automatique de titres composites</h2>
+            <p class="section-subtitle">
+                <strong>Objectif :</strong> Tester si la combinaison systématique Métier × Compétence du référentiel Channel 
+                peut générer des métiers valides, et vérifier que la Proposition 230 couvre ces titres.
+            </p>
+        </div>
+
+        <!-- Étape 1 : Base de validation IA -->
+        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid rgba(77, 159, 255, 0.3); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--accent-blue);">📚 Étape 1 : Base de validation IA</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Pour valider les combinaisons, une base de <strong>11 154 métiers existants</strong> a été constituée :
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem;">
+                <div style="background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem;">ROME 4</div>
+                    <div style="font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">Référentiel national</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem;">MALT</div>
+                    <div style="font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">106 métiers</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem;">LE HIBOU</div>
+                    <div style="font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">178 métiers</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem;">HELLOWORK</div>
+                    <div style="font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">795 jobs</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem;">APEC</div>
+                    <div style="font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">357 métiers</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem;">FREE-WORK</div>
+                    <div style="font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">137 métiers</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem;">INDEED</div>
+                    <div style="font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">5 650 jobs</div>
+                </div>
+                <div style="background: var(--bg-primary); padding: 0.6rem 0.8rem; border-radius: 8px; text-align: center;">
+                    <div style="font-size: 0.65rem; color: var(--text-muted); margin-bottom: 0.2rem;">LINKEDIN</div>
+                    <div style="font-weight: 600; font-size: 0.8rem; color: var(--text-secondary);">3 173 jobs</div>
+                </div>
+            </div>
+            <div style="text-align: center; padding: 1.25rem; background: rgba(38, 222, 129, 0.1); border-radius: 8px; border: 1px solid rgba(38, 222, 129, 0.3);">
+                <div style="font-family: 'Space Mono', monospace; font-size: 2.2rem; font-weight: 700; color: var(--accent-green);">11 154</div>
+                <div style="font-size: 0.9rem; color: var(--text-secondary);">métiers consolidés et dédupliqués</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.25rem;">→ Cette base sert de référence pour que l'IA (Claude Opus 4.5) détermine si un titre composite existe réellement sur le marché</div>
+            </div>
+        </div>
+
+        <!-- Étape 2 : Génération cartésienne -->
+        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">🔬 Étape 2 : Génération des combinaisons cartésiennes Channel</h3>
+            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                <div style="background: rgba(255, 159, 67, 0.1); border: 1px solid rgba(255, 159, 67, 0.3); border-radius: 8px; padding: 1rem 1.5rem; text-align: center;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-orange);">120</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Métiers Channel</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">(Niveau 2 + 3)</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-muted);">×</div>
+                <div style="background: rgba(77, 159, 255, 0.1); border: 1px solid rgba(77, 159, 255, 0.3); border-radius: 8px; padding: 1rem 1.5rem; text-align: center;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-blue);">352</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Compétences Channel</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">(Niveau 3 + 4)</div>
+                </div>
+                <div style="font-size: 1.5rem; color: var(--text-muted);">=</div>
+                <div style="background: rgba(156, 89, 182, 0.1); border: 1px solid rgba(156, 89, 182, 0.3); border-radius: 8px; padding: 1rem 1.5rem; text-align: center;">
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-purple);">8 531</div>
+                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Titres composites</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted);">générés automatiquement</div>
+                </div>
+            </div>
+            <div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                <strong>Validation IA (Claude Opus 4.5)</strong> : chaque combinaison comparée à la base de <span style="color: var(--accent-green); font-weight: 600;">11 154 métiers existants</span><br>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">→ L'IA détermine si le titre construit existe réellement sur le marché</span>
+            </div>
+        </div>
+
+        <!-- Résultat choc -->
+        <div class="verdict-box error" style="margin-bottom: 2rem;">
+            <div class="verdict-icon">⚠️</div>
+            <div class="verdict-text">
+                Résultat : seules <span style="font-size: 1.3em; font-weight: 700;">143</span> combinaisons sur 8 531 correspondent à des métiers réels<br>
+                <span style="font-size: 0.85em; opacity: 0.9;">→ <strong>98.3%</strong> des titres composites générés sont incohérents ou inexistants sur le marché</span>
+            </div>
+        </div>
+
+        <!-- Exemples incohérents -->
+        <div class="alert-box warning" style="margin-bottom: 2rem;">
+            <div class="alert-title">❌ Exemples de combinaisons incohérentes (rejetées par l'IA)</div>
+            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Ces titres composites n'existent pas dans la base des 11 154 métiers du marché :</p>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
+                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
+                    "Directeur RSE - Infrastructure systèmes"
+                </div>
+                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
+                    "Ingénieur de production - Marketing digital"
+                </div>
+                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
+                    "Directeur commercial - Informatique industrielle"
+                </div>
+                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
+                    "Comptable - Intelligence artificielle"
+                </div>
+                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
+                    "Photographe - Cybersécurité"
+                </div>
+                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
+                    "Coach RH - Développement mobile"
+                </div>
+            </div>
+        </div>
+
+        <!-- Exemples valides avec tableau -->
+        <div class="alert-box success" style="margin-bottom: 2rem;">
+            <div class="alert-title">✅ Exemples de combinaisons validées (143 titres sur 8 531)</div>
+            <table class="comparison-table" style="margin-top: 1rem; background: transparent;">
+                <thead>
+                    <tr>
+                        <th>Métier base</th>
+                        <th>Compétence</th>
+                        <th>Titre construit</th>
+                        <th>Statut</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Architecte</td>
+                        <td>Cloud</td>
+                        <td><strong>Architecte Cloud</strong></td>
+                        <td><span class="tag green">EXACT</span></td>
+                    </tr>
+                    <tr>
+                        <td>Développeur</td>
+                        <td>Java</td>
+                        <td><strong>Développeur Java</strong></td>
+                        <td><span class="tag green">EXACT</span></td>
+                    </tr>
+                    <tr>
+                        <td>Ingénieur</td>
+                        <td>DevOps</td>
+                        <td><strong>Ingénieur DevOps</strong></td>
+                        <td><span class="tag green">EXACT</span></td>
+                    </tr>
+                    <tr>
+                        <td>Chef de projet</td>
+                        <td>IA</td>
+                        <td><strong>Chef de projet IA</strong></td>
+                        <td><span class="tag blue">PARTIEL</span></td>
+                    </tr>
+                    <tr>
+                        <td>Consultant</td>
+                        <td>Cybersécurité</td>
+                        <td><strong>Consultant Cybersécurité</strong></td>
+                        <td><span class="tag green">EXACT</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Statistiques de validation détaillées -->
+        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">📊 Répartition des statuts de validation</h3>
+            <table class="comparison-table" style="margin-bottom: 1.5rem;">
+                <thead>
+                    <tr>
+                        <th>Statut</th>
+                        <th>Titres</th>
+                        <th>Combinaisons</th>
+                        <th>Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="tag green">VALIDE_EXACT</span></td>
+                        <td><strong>115</strong></td>
+                        <td>7 815</td>
+                        <td>Titre trouvé tel quel dans la base</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag blue">VALIDE_PARTIEL</span></td>
+                        <td><strong>21</strong></td>
+                        <td>512</td>
+                        <td>Variante proche existante</td>
+                    </tr>
+                    <tr>
+                        <td><span class="tag" style="background: rgba(156, 89, 182, 0.2); color: var(--accent-purple);">VALIDE_FUZZY</span></td>
+                        <td><strong>7</strong></td>
+                        <td>204</td>
+                        <td>Correspondance approximative</td>
+                    </tr>
+                    <tr style="background: rgba(38, 222, 129, 0.05);">
+                        <td><strong>Total validé</strong></td>
+                        <td><strong>143</strong></td>
+                        <td><strong>8 531</strong></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Validation croisée avec Proposition 230 -->
+        <div style="background: linear-gradient(135deg, rgba(38, 222, 129, 0.1) 0%, rgba(77, 159, 255, 0.1) 100%); border-radius: 16px; padding: 2rem; border: 1px solid rgba(38, 222, 129, 0.3); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--accent-green);">🔄 Validation croisée : Proposition 230 vs Cartésien 143</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
+                Objectif : Vérifier que la Proposition 230 métiers couvre bien les 143 titres validés par l'approche cartésienne.
+            </p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+                <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Proposition 230 couvre Cartésien</div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--accent-green);">100%</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">143 / 143 titres ✅</div>
+                </div>
+                <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Cartésien couvre Proposition 230</div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--accent-orange);">77%</div>
+                    <div style="font-size: 0.85rem; color: var(--text-secondary);">176 / 230 métiers</div>
+                </div>
+            </div>
+            <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px; text-align: center;">
+                <strong style="color: var(--accent-blue);">54 métiers</strong> de la Proposition 230 ne sont pas générables par l'approche cartésienne :<br>
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Métiers autonomes, rôles transverses, créatifs, leadership...</span>
+            </div>
+        </div>
+
+        <!-- Conclusion -->
+        <div class="alert-box info">
+            <div class="alert-title">💡 Conclusion de ce test</div>
+            <p>
+                L'approche cartésienne (Métier × Compétence) génère <strong>98.3% de combinaisons incohérentes</strong> 
+                qui ne correspondent à aucun métier existant sur le marché.<br><br>
+                <strong>→ La Proposition 230 métiers</strong> couvre 100% des titres validés par l'approche cartésienne, 
+                plus 54 métiers supplémentaires impossibles à générer par croisement.<br><br>
+                <span style="font-size: 0.9rem; color: var(--text-muted);">
+                    Une liste plate de métiers validés est plus pertinente qu'une génération automatique par croisement.
+                </span>
+            </p>
+        </div>
+    </section>
+
+    <!-- Section 4: Analyse Data SI -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-number">04 // ANALYSE DATA SI</div>
+            <h2 class="section-title">Croisement Référentiel Channel Métiers ↔ 4 Sources SI</h2>
+            <p class="section-subtitle">
+                Analyse exhaustive de la couverture du référentiel Channel sur nos systèmes internes : 
+                Plateforme, Salesforce, Nexus et PUMA.
+            </p>
+        </div>
+
+        <!-- Vue d'ensemble des 4 sources -->
+        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">📊 Périmètre analysé</h3>
+            <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">PLATEFORME</div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700;">212</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">métiers</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">35 456 titres avec occ. uniques</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">SALESFORCE</div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700;">3 039</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">titres uniques</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">12 412 ressources</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">NEXUS</div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700;">1 983</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">titres uniques</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">2 876 occurrences</div>
+                </div>
+                <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
+                    <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem;">PUMA</div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.4rem; font-weight: 700;">4 084</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">titres uniques</div>
+                    <div style="font-size: 0.7rem; color: var(--text-muted); margin-top: 0.25rem;">6 831 occurrences</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Couverture par SI avec détail qualité -->
+        <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">📈 Taux de couverture par source</h3>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 2rem;">
+            <!-- Plateforme -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.5rem;">💻</span>
+                        <span style="font-weight: 600;">Plateforme</span>
+                    </div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-green);">77%</div>
+                </div>
+                <div style="margin-bottom: 0.5rem; height: 12px; background: var(--bg-primary); border-radius: 6px; overflow: hidden;">
+                    <div style="height: 100%; width: 77%; background: linear-gradient(135deg, #26de81 0%, #20bf6b 100%); border-radius: 6px;"></div>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">164 métiers sur 212 présents dans le référentiel Channel</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">→ 48 métiers absents du référentiel (23%)</div>
+            </div>
+            <!-- Salesforce -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.5rem;">📊</span>
+                        <span style="font-weight: 600;">Salesforce</span>
+                    </div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-orange);">32%</div>
+                </div>
+                <div style="margin-bottom: 0.5rem; height: 12px; background: var(--bg-primary); border-radius: 6px; overflow: hidden;">
+                    <div style="height: 100%; width: 32%; background: linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%); border-radius: 6px;"></div>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">914 titres sur 3 039 présents dans le référentiel Channel</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">→ 2 125 titres absents du référentiel (68%)</div>
+            </div>
+            <!-- Nexus -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.5rem;">🔗</span>
+                        <span style="font-weight: 600;">Nexus</span>
+                    </div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-orange);">53%</div>
+                </div>
+                <div style="margin-bottom: 0.5rem; height: 12px; background: var(--bg-primary); border-radius: 6px; overflow: hidden;">
+                    <div style="height: 100%; width: 53%; background: linear-gradient(135deg, #ff9f43 0%, #ee5a24 100%); border-radius: 6px;"></div>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">1 051 titres sur 1 983 présents dans le référentiel Channel</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">→ 932 titres absents du référentiel (47%)</div>
+            </div>
+            <!-- PUMA -->
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <div style="display: flex; align-items: center; gap: 0.75rem;">
+                        <span style="font-size: 1.5rem;">🌐</span>
+                        <span style="font-weight: 600;">PUMA</span>
+                    </div>
+                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-red);">27%</div>
+                </div>
+                <div style="margin-bottom: 0.5rem; height: 12px; background: var(--bg-primary); border-radius: 6px; overflow: hidden;">
+                    <div style="height: 100%; width: 27%; background: linear-gradient(135deg, #ff4d4d 0%, #ee5a24 100%); border-radius: 6px;"></div>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-secondary);">1 103 titres sur 4 084 présents dans le référentiel Channel</div>
+                <div style="font-size: 0.75rem; color: var(--text-muted); margin-top: 0.5rem;">→ 2 981 titres absents du référentiel (73%) — majoritairement en anglais</div>
+            </div>
+        </div>
+
+        <!-- Top Gaps Plateforme -->
+        <div class="alert-box warning">
+            <div class="alert-title">⚠️ Top 10 Gaps Plateforme (métiers avec ≥500 FL)</div>
+        </div>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Métier manquant</th>
+                    <th>Freelances</th>
+                    <th>Famille cible</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><strong>Vidéaste</strong></td>
+                    <td><span class="tag green">3 111</span></td>
+                    <td>Marketing et communication</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>PMO</strong></td>
+                    <td><span class="tag green">2 624</span></td>
+                    <td>Consulting stratégique</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td><strong>Concepteur-rédacteur</strong></td>
+                    <td><span class="tag green">2 252</span></td>
+                    <td>Marketing et communication</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td><strong>Transcripteur audio</strong></td>
+                    <td><span class="tag green">2 053</span></td>
+                    <td>Marketing et communication</td>
+                </tr>
+                <tr>
+                    <td>5</td>
+                    <td><strong>Data Scientist</strong></td>
+                    <td><span class="tag green">1 550</span></td>
+                    <td>Numérique</td>
+                </tr>
+                <tr>
+                    <td>6</td>
+                    <td><strong>Web marketeur</strong></td>
+                    <td><span class="tag blue">1 175</span></td>
+                    <td>Marketing et communication</td>
+                </tr>
+                <tr>
+                    <td>7</td>
+                    <td><strong>Coach Professionnel</strong></td>
+                    <td><span class="tag blue">1 161</span></td>
+                    <td>RH et formation</td>
+                </tr>
+                <tr>
+                    <td>8</td>
+                    <td><strong>Tech Lead / Lead Developer</strong></td>
+                    <td><span class="tag blue">1 123</span></td>
+                    <td>Numérique</td>
+                </tr>
+                <tr>
+                    <td>9</td>
+                    <td><strong>Expert SEO</strong></td>
+                    <td><span class="tag blue">1 121</span></td>
+                    <td>Marketing et communication</td>
+                </tr>
+                <tr>
+                    <td>10</td>
+                    <td><strong>Digital Specialist</strong></td>
+                    <td><span class="tag blue">1 070</span></td>
+                    <td>Numérique</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <!-- Convergence 4 sources -->
+        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid rgba(77, 159, 255, 0.3); margin-top: 2rem;">
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--accent-blue);">🔄 Convergence des 4 sources — Pattern confirmé</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">Les mêmes gaps apparaissent sur plusieurs sources, confirmant leur importance :</p>
+            <table class="comparison-table" style="margin: 0;">
+                <thead>
+                    <tr>
+                        <th>Gap</th>
+                        <th>Plateforme</th>
+                        <th>Salesforce</th>
+                        <th>Nexus</th>
+                        <th>PUMA</th>
+                        <th>Sources</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Business Analyst</strong></td>
+                        <td>—</td>
+                        <td><span class="tag blue">112 res</span></td>
+                        <td><span class="tag blue">7 occ</span></td>
+                        <td><span class="tag green">99 occ</span></td>
+                        <td><span class="tag green">3/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Engineer</strong></td>
+                        <td>—</td>
+                        <td><span class="tag blue">103 res</span></td>
+                        <td><span class="tag blue">11 occ</span></td>
+                        <td><span class="tag blue">17 occ</span></td>
+                        <td><span class="tag green">3/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Scientist</strong></td>
+                        <td><span class="tag green">1 550 FL</span></td>
+                        <td><span class="tag blue">81 res</span></td>
+                        <td><span class="tag blue">3 occ</span></td>
+                        <td><span class="tag blue">17 occ</span></td>
+                        <td><span class="tag green">4/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Data Analyst</strong></td>
+                        <td>—</td>
+                        <td><span class="tag blue">71 res</span></td>
+                        <td><span class="tag blue">7 occ</span></td>
+                        <td><span class="tag blue">15 occ</span></td>
+                        <td><span class="tag green">3/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Développeur Fullstack</strong></td>
+                        <td>—</td>
+                        <td><span class="tag green">208 res</span></td>
+                        <td><span class="tag blue">15 occ</span></td>
+                        <td>—</td>
+                        <td><span class="tag blue">2/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>DevOps</strong></td>
+                        <td>—</td>
+                        <td>—</td>
+                        <td><span class="tag blue">3 occ</span></td>
+                        <td><span class="tag blue">32 occ</span></td>
+                        <td><span class="tag blue">2/4</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>UX Designer</strong></td>
+                        <td>—</td>
+                        <td><span class="tag blue">64 res</span></td>
+                        <td>—</td>
+                        <td><span class="tag blue">13 occ</span></td>
+                        <td><span class="tag blue">2/4</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="alert-box info" style="margin-top: 2rem;">
+            <div class="alert-title">💡 Conclusion analyse SI</div>
+            <p><strong>Pattern récurrent :</strong> Channel est fort sur le consulting traditionnel, mais <strong>faible sur les spécialisations tech modernes</strong> (Data, DevOps, UX) et les <strong>métiers créatifs</strong> (Vidéaste, Concepteur-rédacteur).</p>
+        </div>
+    </section>
+
+    <!-- Section 5: Benchmark -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-number">05 // BENCHMARK CONCURRENTS</div>
+            <h2 class="section-title">Alignement avec le marché</h2>
+            <p class="section-subtitle">
+                Analyse des référentiels utilisés par Malt, LeHibou et FreeWork pour identifier 
+                les standards du marché freelance.
+            </p>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin: 2rem 0;">
+            <div style="background: var(--bg-card); border: 1px solid rgba(255, 107, 107, 0.3); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <span style="font-size: 1.5rem;">🔴</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">Malt</span>
+                </div>
+                <div style="font-family: 'Space Mono', monospace; font-size: 1.8rem; font-weight: 700; color: #ff6b6b;">106</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">métiers • 12 catégories</div>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid rgba(255, 193, 7, 0.3); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <span style="font-size: 1.5rem;">🟡</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">LeHibou</span>
+                </div>
+                <div style="font-family: 'Space Mono', monospace; font-size: 1.8rem; font-weight: 700; color: #ffc107;">178</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">métiers • 13 domaines</div>
+            </div>
+            <div style="background: var(--bg-card); border: 1px solid rgba(0, 188, 212, 0.3); border-radius: 12px; padding: 1.5rem;">
+                <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                    <span style="font-size: 1.5rem;">🔵</span>
+                    <span style="font-size: 0.85rem; color: var(--text-secondary);">FreeWork</span>
+                </div>
+                <div style="font-family: 'Space Mono', monospace; font-size: 1.8rem; font-weight: 700; color: #00bcd4;">137</div>
+                <div style="font-size: 0.8rem; color: var(--text-muted);">métiers • IT/Digital</div>
+            </div>
+        </div>
+
+        <div class="alert-box success" style="margin-top: 2rem;">
+            <div class="alert-title">✅ Bonne nouvelle : notre proposition couvre très bien le marché</div>
+            <table class="comparison-table" style="margin: 1rem 0; background: transparent;">
+                <thead>
+                    <tr>
+                        <th>Concurrent</th>
+                        <th>Leurs métiers</th>
+                        <th>Couverts par nos 230</th>
+                        <th>Taux</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Malt</td>
+                        <td>106 métiers</td>
+                        <td>100 métiers</td>
+                        <td><span class="tag green">94%</span></td>
+                    </tr>
+                    <tr>
+                        <td>LeHibou</td>
+                        <td>178 métiers</td>
+                        <td>151 métiers</td>
+                        <td><span class="tag green">85%</span></td>
+                    </tr>
+                    <tr>
+                        <td>FreeWork</td>
+                        <td>137 métiers</td>
+                        <td>117 métiers</td>
+                        <td><span class="tag green">85%</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Ajouts principaux du benchmark -->
+        <h3 style="margin-top: 3rem; margin-bottom: 1.5rem;">Principaux ajouts issus du benchmark</h3>
+        <div class="cards-grid">
+            <div class="info-card">
+                <div class="info-card-title">💻 Développement (10 ajouts)</div>
+                <div class="info-card-desc">
+                    Développeur Front-end, Back-end, Fullstack, Mobile, Java, PHP, .NET, Python, Embarqué/IoT, Jeux Vidéo
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">🔒 Sécurité (5 ajouts)</div>
+                <div class="info-card-desc">
+                    RSSI, Analyste SOC, DevSecOps, Pentester, Consultant Cybersécurité
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">📈 Consulting IT (8 ajouts)</div>
+                <div class="info-card-desc">
+                    Consultant BI, Cloud, CRM, ERP, Data, SIRH, Finance, M&A
+                </div>
+            </div>
+            <div class="info-card">
+                <div class="info-card-title">🎯 Direction (4 ajouts)</div>
+                <div class="info-card-desc">
+                    CTO, DSI/CIO, Chief of Staff, Chief Digital Officer
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section 6: Proposition 230 -->
+    <section class="section">
+        <div class="section-header">
+            <div class="section-number">06 // PROPOSITION</div>
+            <h2 class="section-title">Référentiel enrichi : 230 métiers</h2>
+            <p class="section-subtitle">
+                Une liste qui conserve la structure Channel (9 familles) et l'enrichit 
+                pour couvrir 100% des besoins clients identifiés.
+            </p>
+        </div>
+
+        <div class="flow-diagram">
+            <div class="flow-box" style="border-color: var(--accent-orange);">
+                <div class="flow-number" style="color: var(--accent-orange);">125</div>
+                <div class="flow-label">Base Channel</div>
+            </div>
+            <div class="flow-arrow">+</div>
+            <div class="flow-box" style="border-color: var(--accent-blue);">
+                <div class="flow-number" style="color: var(--accent-blue);">41</div>
+                <div class="flow-label">Gaps SI</div>
+            </div>
+            <div class="flow-arrow">+</div>
+            <div class="flow-box" style="border-color: var(--accent-purple);">
+                <div class="flow-number" style="color: var(--accent-purple);">64</div>
+                <div class="flow-label">Benchmark</div>
+            </div>
+            <div class="flow-arrow">=</div>
+            <div class="flow-box success">
+                <div class="flow-number" style="color: var(--accent-green);">230</div>
+                <div class="flow-label">Métiers</div>
+            </div>
+        </div>
+
+        <!-- Répartition par famille -->
+        <h3 style="margin-top: 2rem; margin-bottom: 1.5rem;">Répartition par famille</h3>
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>Famille</th>
+                    <th style="text-align: center;">Channel</th>
+                    <th style="text-align: center;">+ SI</th>
+                    <th style="text-align: center;">+ Benchmark</th>
+                    <th style="text-align: center;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Numérique</strong></td>
+                    <td style="text-align: center;">22</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+23</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+37</td>
+                    <td style="text-align: center;"><span class="tag green">82</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Marketing et communication</strong></td>
+                    <td style="text-align: center;">24</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+10</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+10</td>
+                    <td style="text-align: center;"><span class="tag blue">44</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Consulting stratégique</strong></td>
+                    <td style="text-align: center;">11</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+3</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+7</td>
+                    <td style="text-align: center;"><span class="tag blue">21</span></td>
+                </tr>
+                <tr>
+                    <td><strong>RH et formation</strong></td>
+                    <td style="text-align: center;">13</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+4</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+4</td>
+                    <td style="text-align: center;"><span class="tag blue">21</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Finance, juridique, compta</strong></td>
+                    <td style="text-align: center;">14</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+1</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+3</td>
+                    <td style="text-align: center;"><span class="tag blue">18</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Achat, logistique, qualité</strong></td>
+                    <td style="text-align: center;">12</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+0</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+1</td>
+                    <td style="text-align: center;"><span class="tag blue">13</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Commerce</strong></td>
+                    <td style="text-align: center;">11</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+0</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+2</td>
+                    <td style="text-align: center;"><span class="tag blue">13</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Ingénierie, R&D</strong></td>
+                    <td style="text-align: center;">10</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+0</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+0</td>
+                    <td style="text-align: center;"><span class="tag blue">10</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Environnement, RSE</strong></td>
+                    <td style="text-align: center;">8</td>
+                    <td style="text-align: center; color: var(--accent-blue);">+0</td>
+                    <td style="text-align: center; color: var(--accent-purple);">+0</td>
+                    <td style="text-align: center;"><span class="tag blue">8</span></td>
+                </tr>
+                <tr style="background: var(--bg-card);">
+                    <td><strong>TOTAL</strong></td>
+                    <td style="text-align: center;"><strong>125</strong></td>
+                    <td style="text-align: center; color: var(--accent-blue);"><strong>+41</strong></td>
+                    <td style="text-align: center; color: var(--accent-purple);"><strong>+64</strong></td>
+                    <td style="text-align: center;"><span class="tag green" style="font-size: 0.9rem;"><strong>230</strong></span></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="verdict-box success" style="margin-top: 2rem;">
+            <div class="verdict-icon">✅</div>
+            <div class="verdict-text">100% des besoins clients Salesforce couverts<br><span style="font-size: 1rem; font-weight: 400;">(test sur 8 159 opportunités — 72 métiers demandés / 4 744 occurrences)</span></div>
+        </div>
+
+        <div class="alert-box info" style="margin-top: 2rem;">
+            <div class="alert-title">📋 Focus : Famille Numérique (82 métiers)</div>
+            <p>La famille la plus enrichie, pour répondre aux besoins IT/Tech du marché :</p>
+            <div style="margin-top: 1rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.5rem; color: var(--text-secondary);">
+                <span>• Développement : 14 métiers</span>
+                <span>• Data & IA : 10 métiers</span>
+                <span>• Architecture & Infra : 8 métiers</span>
+                <span>• Sécurité : 8 métiers</span>
+                <span>• Consulting IT : 12 métiers</span>
+                <span>• Chef de projet : 6 métiers</span>
+                <span>• Direction IT : 4 métiers</span>
+                <span>• Agilité : 4 métiers</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-logo">RÉFÉRENTIEL MÉTIERS // FREELANCE.COM × CHANNEL</div>
+        <div>Février 2026 — Proposition collaborative</div>
+    </footer>
+
+</body>
+</html>
