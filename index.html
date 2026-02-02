@@ -762,28 +762,6 @@
             </div>
         </div>
 
-        <div class="flow-diagram">
-            <div class="flow-box highlight">
-                <div class="flow-number" style="color: var(--accent-blue);">125</div>
-                <div class="flow-label">Métiers</div>
-            </div>
-            <div class="flow-arrow">×</div>
-            <div class="flow-box highlight">
-                <div class="flow-number" style="color: var(--accent-blue);">70</div>
-                <div class="flow-label">Sous-domaines</div>
-            </div>
-            <div class="flow-arrow">=</div>
-            <div class="flow-box warning">
-                <div class="flow-number" style="color: var(--accent-orange);">8 750</div>
-                <div class="flow-label">Combinaisons brutes</div>
-            </div>
-            <div class="flow-arrow">→</div>
-            <div class="flow-box success">
-                <div class="flow-number" style="color: var(--accent-green);">~3 700</div>
-                <div class="flow-label">Profils cohérents</div>
-            </div>
-        </div>
-
         <!-- Champs SI Plateforme -->
         <div class="alert-box success" style="margin-top: 2rem;">
             <div class="alert-title">🟢 Champs SI existants sur la Plateforme</div>
@@ -834,27 +812,22 @@
         <!-- Flow diagram -->
         <div class="flow-diagram" style="margin-bottom: 3rem;">
             <div class="flow-box">
-                <div class="flow-number" style="color: var(--accent-blue);">128</div>
+                <div class="flow-number" style="color: var(--accent-blue);">125</div>
                 <div class="flow-label">Métiers</div>
             </div>
             <div class="flow-arrow">×</div>
             <div class="flow-box">
-                <div class="flow-number" style="color: var(--accent-blue);">72</div>
-                <div class="flow-label">Domaines</div>
+                <div class="flow-number" style="color: var(--accent-blue);">59</div>
+                <div class="flow-label">Compétences + Spécialisation</div>
             </div>
             <div class="flow-arrow">=</div>
-            <div class="flow-box" style="border-color: var(--accent-purple);">
-                <div class="flow-number" style="color: var(--accent-purple);">9 216</div>
+            <div class="flow-box" style="border-color: var(--accent-orange);">
+                <div class="flow-number" style="color: var(--accent-orange);">7 375</div>
                 <div class="flow-label">Combinaisons brutes</div>
             </div>
             <div class="flow-arrow">→</div>
-            <div class="flow-box" style="border-color: var(--accent-orange);">
-                <div class="flow-number" style="color: var(--accent-orange);">-5 478</div>
-                <div class="flow-label">Filtrées (59%)</div>
-            </div>
-            <div class="flow-arrow">→</div>
             <div class="flow-box success">
-                <div class="flow-number" style="color: var(--accent-green);">3 738</div>
+                <div class="flow-number" style="color: var(--accent-green);">~3 700</div>
                 <div class="flow-label">Profils cohérents</div>
             </div>
         </div>
@@ -878,7 +851,7 @@
                 <div class="info-card-icon" style="background: rgba(38, 222, 129, 0.1);">✅</div>
                 <div class="info-card-title" style="color: var(--accent-green);">Combinaisons conservées (41%)</div>
                 <div class="info-card-desc">
-                    Seules les combinaisons pertinentes sont retenues, générant 3 738 profils utilisables.<br><br>
+                    Seules les combinaisons pertinentes sont retenues, générant ~3 700 profils utilisables.<br><br>
                     <strong>Exemples conservés :</strong><br>
                     <span style="font-family: 'Space Mono', monospace; font-size: 0.8rem; color: var(--text-muted);">
                         "Consultant en stratégie - Data et IA"<br>
@@ -891,7 +864,7 @@
 
         <!-- Distribution par famille -->
         <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">📊 Distribution des 3 738 profils par famille métier</h3>
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">📊 Distribution des ~3 700 profils par famille métier</h3>
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem;">
                 <div style="text-align: center; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
                     <div style="font-family: 'Space Mono', monospace; font-size: 1.3rem; font-weight: 700; color: var(--accent-blue);">980</div>
@@ -949,7 +922,7 @@
             <h2 class="section-title">Besoins d'agrégation</h2>
             <p class="section-subtitle">
                 Les équipes métier expriment des besoins de KPI qui nécessitent une capacité d'agrégation à différents niveaux.
-                Analysons en détail 5 questions récurrentes.
+                Analysons en détail 4 questions récurrentes.
             </p>
         </div>
 
@@ -1033,53 +1006,11 @@ ET <span style="color: var(--accent-purple);">Région = 'Île-de-France'</span>
             </div>
         </div>
 
-        <!-- Question 3: Freelances en IA -->
+        <!-- Question 3: TJM par métier -->
         <div class="kpi-detail-box">
             <div class="kpi-detail-header">
-                <div class="kpi-question">❸ "Combien de freelances en IA ?"</div>
-                <div class="kpi-context">Question de compétence transverse — Équipe Marketing / Stratégie</div>
-            </div>
-            <div class="kpi-comparison">
-                <div class="kpi-approach cartesian">
-                    <div class="kpi-approach-header">
-                        <span class="tag orange">⚠️ Complexe</span>
-                        
-                    </div>
-                    <div class="kpi-approach-content">
-                        <p>L'IA n'est pas un métier, c'est une <strong>compétence transverse</strong> :</p>
-                        <div class="code-block" style="margin: 1rem 0; font-size: 0.8rem;">
-Titre = 'Data Scientist'<br>
-OU Titre = 'Ingénieur Machine Learning'<br>
-OU Titre = 'Développeur Python' <span style="color: var(--text-muted);">/* peut-être ? */</span><br>
-OU Titre = 'Chef de Projet Data' <span style="color: var(--text-muted);">/* peut-être ? */</span><br>
-OU ...
-                        </div>
-                        <p style="color: var(--accent-orange); font-size: 0.85rem;">⚠️ Où s'arrête la liste ? Un Consultant ou un Chef de projet peut aussi faire de l'IA...</p>
-                    </div>
-                </div>
-                <div class="kpi-approach separated">
-                    <div class="kpi-approach-header">
-                        <span class="tag green">✅ Filtrage direct</span>
-                        
-                    </div>
-                    <div class="kpi-approach-content">
-                        <p>Filtrage sur le champ Compétences :</p>
-                        <div class="code-block" style="margin: 1rem 0; font-size: 0.9rem;">
-<span style="color: var(--accent-green);">'IA' DANS Compétences</span><br>
-OU <span style="color: var(--accent-green);">'Machine Learning' DANS Compétences</span><br>
-OU <span style="color: var(--accent-green);">'Deep Learning' DANS Compétences</span>
-                        </div>
-                        <p style="color: var(--accent-green); font-size: 0.85rem;">✅ Capture tous les profils compétents en IA, quel que soit leur métier principal</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Question 4: TJM par métier -->
-        <div class="kpi-detail-box">
-            <div class="kpi-detail-header">
-                <div class="kpi-question">❹ "TJM des UX UI Designers ?"</div>
-                <div class="kpi-context">Question d'agrégation par métier — Direction / Finance / Offres</div>
+                <div class="kpi-question">❸ "TJM des UX UI Designers ?"</div>
+                <div class="kpi-context">Question d'agrégation par métier</div>
             </div>
             <div class="kpi-comparison">
                 <div class="kpi-approach cartesian">
@@ -1115,10 +1046,10 @@ OU ... <span style="color: var(--accent-orange);">/* combien de variantes ? */</
             </div>
         </div>
 
-        <!-- Question 5: Top compétences -->
+        <!-- Question 4: Top compétences -->
         <div class="kpi-detail-box">
             <div class="kpi-detail-header">
-                <div class="kpi-question">❺ "Top 10 compétences déclarées ?"</div>
+                <div class="kpi-question">❹ "Top 10 compétences déclarées ?"</div>
                 <div class="kpi-context">Question de tendance — Marketing / Veille marché</div>
             </div>
             <div class="kpi-comparison">
@@ -1159,47 +1090,6 @@ OU ... <span style="color: var(--accent-orange);">/* combien de variantes ? */</
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- Synthèse -->
-        <div class="alert-box info" style="margin-top: 3rem;">
-            <div class="alert-title">📊 Synthèse des 5 cas d'usage</div>
-            <table class="comparison-table" style="margin: 1rem 0;">
-                <thead>
-                    <tr>
-                        <th style="width: 35%;">Question</th>
-                        <th style="width: 30%;">Titres composites</th>
-                        <th style="width: 35%;">Métier + Compétences séparés</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Combien de Développeurs ?</td>
-                        <td><span class="tag orange">⚠️ Liste manuelle</span></td>
-                        <td><span class="tag green">✅ 1 requête</span></td>
-                    </tr>
-                    <tr>
-                        <td>Combien de Dev Java en IDF ?</td>
-                        <td><span class="tag green">✅ Croisement OK</span></td>
-                        <td><span class="tag green">✅ Plus flexible</span></td>
-                    </tr>
-                    <tr>
-                        <td>Combien en IA ?</td>
-                        <td><span class="tag orange">⚠️ Liste partielle</span></td>
-                        <td><span class="tag green">✅ 1 requête</span></td>
-                    </tr>
-                    <tr>
-                        <td>TJM des UX/UI Designers ?</td>
-                        <td><span class="tag orange">⚠️ Liste variantes</span></td>
-                        <td><span class="tag green">✅ 1 requête</span></td>
-                    </tr>
-                    <tr>
-                        <td>Top compétences ?</td>
-                        <td><span class="tag orange">⚠️ Parsing requis</span></td>
-                        <td><span class="tag green">✅ 1 requête</span></td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
     </section>
 
@@ -1317,78 +1207,15 @@ OU ... <span style="color: var(--accent-orange);">/* combien de variantes ? */</
             </div>
         </div>
 
-        <!-- Étape 2 : Génération cartésienne -->
-        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">🔬 Étape 2 : Génération des combinaisons cartésiennes Channel</h3>
-            <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
-                <div style="background: rgba(255, 159, 67, 0.1); border: 1px solid rgba(255, 159, 67, 0.3); border-radius: 8px; padding: 1rem 1.5rem; text-align: center;">
-                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-orange);">120</div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Métiers Channel</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">(Niveau 2 + 3)</div>
-                </div>
-                <div style="font-size: 1.5rem; color: var(--text-muted);">×</div>
-                <div style="background: rgba(77, 159, 255, 0.1); border: 1px solid rgba(77, 159, 255, 0.3); border-radius: 8px; padding: 1rem 1.5rem; text-align: center;">
-                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-blue);">352</div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Compétences Channel</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">(Niveau 3 + 4)</div>
-                </div>
-                <div style="font-size: 1.5rem; color: var(--text-muted);">=</div>
-                <div style="background: rgba(156, 89, 182, 0.1); border: 1px solid rgba(156, 89, 182, 0.3); border-radius: 8px; padding: 1rem 1.5rem; text-align: center;">
-                    <div style="font-family: 'Space Mono', monospace; font-size: 1.5rem; font-weight: 700; color: var(--accent-purple);">8 531</div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Titres composites</div>
-                    <div style="font-size: 0.7rem; color: var(--text-muted);">générés automatiquement</div>
-                </div>
-            </div>
-            <div style="text-align: center; color: var(--text-secondary); font-size: 0.85rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px;">
-                <strong>Validation IA (Claude Opus 4.5)</strong> : chaque combinaison comparée à la base de <span style="color: var(--accent-green); font-weight: 600;">11 154 métiers existants</span><br>
-                <span style="font-size: 0.8rem; color: var(--text-muted);">→ L'IA détermine si le titre construit existe réellement sur le marché</span>
-            </div>
-        </div>
-
-        <!-- Résultat choc -->
-        <div class="verdict-box error" style="margin-bottom: 2rem;">
-            <div class="verdict-icon">⚠️</div>
-            <div class="verdict-text">
-                Résultat : seules <span style="font-size: 1.3em; font-weight: 700;">143</span> combinaisons sur 8 531 correspondent à des métiers réels<br>
-                <span style="font-size: 0.85em; opacity: 0.9;">→ <strong>98.3%</strong> des titres composites générés sont incohérents ou inexistants sur le marché</span>
-            </div>
-        </div>
-
-        <!-- Exemples incohérents -->
-        <div class="alert-box warning" style="margin-bottom: 2rem;">
-            <div class="alert-title">❌ Exemples de combinaisons incohérentes (rejetées par l'IA)</div>
-            <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">Ces titres composites n'existent pas dans la base des 11 154 métiers du marché :</p>
-            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem;">
-                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
-                    "Directeur RSE - Infrastructure systèmes"
-                </div>
-                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
-                    "Ingénieur de production - Marketing digital"
-                </div>
-                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
-                    "Directeur commercial - Informatique industrielle"
-                </div>
-                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
-                    "Comptable - Intelligence artificielle"
-                </div>
-                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
-                    "Photographe - Cybersécurité"
-                </div>
-                <div style="background: rgba(255, 77, 77, 0.1); padding: 0.75rem 1rem; border-radius: 6px; font-family: 'Space Mono', monospace; font-size: 0.85rem;">
-                    "Coach RH - Développement mobile"
-                </div>
-            </div>
-        </div>
-
-        <!-- Exemples valides avec tableau -->
+        <!-- Exemples validés -->
         <div class="alert-box success" style="margin-bottom: 2rem;">
-            <div class="alert-title">✅ Exemples de combinaisons validées (143 titres sur 8 531)</div>
+            <div class="alert-title">✅ Exemples validés</div>
             <table class="comparison-table" style="margin-top: 1rem; background: transparent;">
                 <thead>
                     <tr>
-                        <th>Métier base</th>
+                        <th>Métier Base</th>
                         <th>Compétence</th>
-                        <th>Titre construit</th>
+                        <th>Titre Construit</th>
                         <th>Statut</th>
                     </tr>
                 </thead>
@@ -1412,9 +1239,9 @@ OU ... <span style="color: var(--accent-orange);">/* combien de variantes ? */</
                         <td><span class="tag green">EXACT</span></td>
                     </tr>
                     <tr>
-                        <td>Chef de projet</td>
+                        <td>Chef de Projet</td>
                         <td>IA</td>
-                        <td><strong>Chef de projet IA</strong></td>
+                        <td><strong>Chef de Projet IA</strong></td>
                         <td><span class="tag blue">PARTIEL</span></td>
                     </tr>
                     <tr>
@@ -1427,83 +1254,74 @@ OU ... <span style="color: var(--accent-orange);">/* combien de variantes ? */</
             </table>
         </div>
 
-        <!-- Statistiques de validation détaillées -->
-        <div style="background: var(--bg-card); border-radius: 16px; padding: 2rem; border: 1px solid var(--border-color); margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem;">📊 Répartition des statuts de validation</h3>
-            <table class="comparison-table" style="margin-bottom: 1.5rem;">
+        <!-- Exemples rejetés -->
+        <div class="alert-box warning" style="margin-bottom: 2rem;">
+            <div class="alert-title">❌ Exemples rejetés</div>
+            <table class="comparison-table" style="margin-top: 1rem; background: transparent;">
                 <thead>
                     <tr>
-                        <th>Statut</th>
-                        <th>Titres</th>
-                        <th>Combinaisons</th>
-                        <th>Description</th>
+                        <th>Titre Composite</th>
+                        <th>Raison</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td><span class="tag green">VALIDE_EXACT</span></td>
-                        <td><strong>115</strong></td>
-                        <td>7 815</td>
-                        <td>Titre trouvé tel quel dans la base</td>
+                        <td>Directeur RSE - Infrastructure systèmes</td>
+                        <td>Incohérence sémantique</td>
                     </tr>
                     <tr>
-                        <td><span class="tag blue">VALIDE_PARTIEL</span></td>
-                        <td><strong>21</strong></td>
-                        <td>512</td>
-                        <td>Variante proche existante</td>
+                        <td>Ingénieur de production - Marketing digital</td>
+                        <td>Incohérence sémantique</td>
                     </tr>
                     <tr>
-                        <td><span class="tag" style="background: rgba(156, 89, 182, 0.2); color: var(--accent-purple);">VALIDE_FUZZY</span></td>
-                        <td><strong>7</strong></td>
-                        <td>204</td>
-                        <td>Correspondance approximative</td>
+                        <td>Directeur commercial - Informatique industrielle</td>
+                        <td>Incohérence sémantique</td>
                     </tr>
-                    <tr style="background: rgba(38, 222, 129, 0.05);">
-                        <td><strong>Total validé</strong></td>
-                        <td><strong>143</strong></td>
-                        <td><strong>8 531</strong></td>
-                        <td></td>
+                    <tr>
+                        <td>Comptable - Intelligence artificielle</td>
+                        <td>N'existe pas sur le marché</td>
+                    </tr>
+                    <tr>
+                        <td>Photographe - Cybersécurité</td>
+                        <td>N'existe pas sur le marché</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
-        <!-- Validation croisée avec Proposition 230 -->
+        <!-- Validation croisée -->
         <div style="background: linear-gradient(135deg, rgba(38, 222, 129, 0.1) 0%, rgba(77, 159, 255, 0.1) 100%); border-radius: 16px; padding: 2rem; border: 1px solid rgba(38, 222, 129, 0.3); margin-bottom: 2rem;">
-            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--accent-green);">🔄 Validation croisée : Proposition 230 vs Cartésien 143</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">
-                Objectif : Vérifier que la Proposition 230 métiers couvre bien les 143 titres validés par l'approche cartésienne.
-            </p>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
-                <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Proposition 230 couvre Cartésien</div>
-                    <div style="font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--accent-green);">100%</div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary);">143 / 143 titres ✅</div>
-                </div>
-                <div style="text-align: center; padding: 1.5rem; background: var(--bg-card); border-radius: 12px;">
-                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Cartésien couvre Proposition 230</div>
-                    <div style="font-family: 'Space Mono', monospace; font-size: 2.5rem; font-weight: 700; color: var(--accent-orange);">77%</div>
-                    <div style="font-size: 0.85rem; color: var(--text-secondary);">176 / 230 métiers</div>
-                </div>
+            <h3 style="margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--accent-green);">🔄 Validation croisée</h3>
+            <table class="comparison-table" style="margin-bottom: 1.5rem; background: transparent;">
+                <thead>
+                    <tr>
+                        <th>Comparaison</th>
+                        <th>Résultat</th>
+                        <th>Détail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Proposition 230 couvre Cartésien</td>
+                        <td><span class="tag green">✅ 100%</span></td>
+                        <td>143/143 titres couverts</td>
+                    </tr>
+                    <tr>
+                        <td>Cartésien couvre Proposition 230</td>
+                        <td><span class="tag orange">⚠️ 77%</span></td>
+                        <td>176/230 métiers</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="padding: 1rem; background: var(--bg-card); border-radius: 8px;">
+                <p style="margin-bottom: 0.75rem; color: var(--text-secondary);"><strong style="color: var(--accent-blue);">54 métiers</strong> non générables par l'approche cartésienne :</p>
+                <ul style="font-size: 0.85rem; color: var(--text-muted); margin: 0; padding-left: 1.5rem;">
+                    <li><strong>Métiers autonomes :</strong> Vidéaste, Photographe, Illustrateur, Motion Designer</li>
+                    <li><strong>Rôles transverses :</strong> PMO, Scrum Master, Agile Coach, Chief of Staff</li>
+                    <li><strong>Postes créatifs :</strong> Concepteur-rédacteur, UX Writer, Directeur artistique</li>
+                    <li><strong>Leadership :</strong> CTO, DSI/CIO, CDO, RSSI</li>
+                </ul>
             </div>
-            <div style="margin-top: 1.5rem; padding: 1rem; background: var(--bg-primary); border-radius: 8px; text-align: center;">
-                <strong style="color: var(--accent-blue);">54 métiers</strong> de la Proposition 230 ne sont pas générables par l'approche cartésienne :<br>
-                <span style="font-size: 0.85rem; color: var(--text-muted);">Métiers autonomes, rôles transverses, créatifs, leadership...</span>
-            </div>
-        </div>
-
-        <!-- Conclusion -->
-        <div class="alert-box info">
-            <div class="alert-title">💡 Conclusion de ce test</div>
-            <p>
-                L'approche cartésienne (Métier × Compétence) génère <strong>98.3% de combinaisons incohérentes</strong> 
-                qui ne correspondent à aucun métier existant sur le marché.<br><br>
-                <strong>→ La Proposition 230 métiers</strong> couvre 100% des titres validés par l'approche cartésienne, 
-                plus 54 métiers supplémentaires impossibles à générer par croisement.<br><br>
-                <span style="font-size: 0.9rem; color: var(--text-muted);">
-                    Une liste plate de métiers validés est plus pertinente qu'une génération automatique par croisement.
-                </span>
-            </p>
         </div>
     </section>
 
